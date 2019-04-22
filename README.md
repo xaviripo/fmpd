@@ -18,7 +18,9 @@ In case we want to download all the pictures we've been tagged in, we can follow
 
 ### Get your browser cookies
 
-Facebook, naturally, only allows access to the pictures if you're logged in. Luckily, this can be emulated in `curl` by using a `cookies.txt` file. This file is supposed to contain all the cookies that your browser has saved. To obtain it, one can use a browser extension. I used [this one](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/) for Firefox. Export the file as `cookies.txt` and save it in the same folder as the Python script.
+Facebook, naturally, only allows access to the pictures if you're logged in. Luckily, this can be emulated in `curl` by using a `cookies.txt` file. This file is supposed to contain all the cookies that your browser has saved. To obtain it, one can use a browser extension. I used [this one](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/) for Firefox.
+
+First, make sure you log into Facebook with the keep me logged in option checked. Then, export the file as `cookies.txt` and save it in the same folder as the Python script.
 
 ### Execute the script
 
