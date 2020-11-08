@@ -3,7 +3,7 @@
 import { readLines } from 'https://deno.land/std@0.76.0/io/bufio.ts';
 import { format } from 'https://deno.land/std@0.76.0/datetime/mod.ts';
 import { parse } from 'https://deno.land/std@0.76.0/flags/mod.ts';
-import { exists } from "https://deno.land/std@0.76.0/fs/mod.ts";
+import { exists, ensureDir } from "https://deno.land/std@0.76.0/fs/mod.ts";
 import { resolve } from 'https://deno.land/std@0.76.0/path/mod.ts';
 
 import { fetchRedirect, fetchFacebook } from './fetch.ts';
@@ -40,7 +40,7 @@ async function main(): Promise<void> {
     -h, --help                      Prints help information
     -a, --agent <AGENT>             Provide User-Agent string
     -c, --cookies-file <COOKIES>    Provide a file with the cookies for the requests
-    -n, --name <NAME>               Provide a format string for the names of the downloaded files
+    -n, --name <NAME>               Provide a format string for the names of the downloaded files. Can include / to make folders
     -q, --quiet                     Omit printing the names of the downloaded files`);
     Deno.exit();
   }
@@ -144,7 +144,11 @@ export default async function download(
       // The name format string contains no indices, just rewrite the file!
       if (name === originalName) break;
     }
+
+    const parts = name.split('/');
+    await ensureDir(parts.slice(0, -1).join('/'));
     await Deno.writeFile(name, new Uint8Array(await response.arrayBuffer()));
+
     if (!quiet) {
       console.log(`${name}`);
     }
@@ -170,7 +174,7 @@ export default async function download(
  */
 function parseFormatString(formatString: string): (fbid: string, date: Date, index: number) => string {
   const parts = formatString.split('\'');
-  return (fbid: string, date: Date, index: number) => parts.reduce((acc, cur, idx) => {
+  return (fbid: string, date: Date, index: number) => format(date, parts.reduce((acc, cur, idx) => {
     let parsedCur = cur;
     // Process the parts outside of 'quotes' (e.g. "yes'no'yes")
     // The last part is always processed, there are no "open" literals (e.g. "yes'no'yes'yes")
@@ -181,10 +185,9 @@ function parseFormatString(formatString: string): (fbid: string, date: Date, ind
       parsedCur = parsedCur.replace(/i+/g, match => index === 1 ? '' : index.toString().padStart(match.length, '0'));
       // I+ -> incremental index (for files with the same name), starting at the first picture
       parsedCur = parsedCur.replace(/I+/g, match => index.toString().padStart(match.length, '0'));
-      parsedCur = format(date, parsedCur);
     }
     return acc + '\'' + parsedCur;
-  }, '').slice(1);
+  }, '').slice(1));
 }
 
 /**
