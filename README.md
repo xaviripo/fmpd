@@ -1,31 +1,55 @@
 # Facebook Massive Picture Downloader
 
-Python script to automatically download any number of Facebook pictures given a list of their FBIDs.
+Download any number of Facebook pictures given a list of their FBIDs.
 
-## About
 
-Facebook has a tool that allows any user to download all the pictures they have uploaded. However, it does not allow to automatically download all the pictures that one's been tagged in. In fact, this can be a hard task. This script tries to make the task easier. Nevertheless, it works for any list of FBIDs of pictures.
+## ℹ️ About
 
-This script is in no way efficient; it could be parallelized and made more robust. This is just a one-off task I needed solved, and decided to upload my solution for anybody else that might need it. I'm not responsible for any consequence of the usage of these files.
+Facebook has a tool that allows you to download all the pictures you have uploaded.
+However, it does not allow to automatically download other sets of pictures, like, for instance, all the pictures that you've been tagged in.
+In fact, this can be a hard task.
+This script tries to make it easier.
+Nevertheless, it works for any set of pictures uploaded to Facebook that you have access to.
 
-## Instructions
 
-### Get the FBID of the pictures to download
+## 🔢 Quick start
 
-Facebook assigns a unique identification number ("FBID") to every picture uploaded. We first need to obtain a list of the FBIDs of the pictures we want to download.
+1. 🖼️ **Get the FBIDs of the pictures to download**
 
-In case we want to download all the pictures we've been tagged in, we can follow [these](https://github.com/gnmerritt/gnmerritt.net/issues/1#issuecomment-407623247) steps. We generate a file containing all the FBID numbers, one per line. Save this file as `list.txt` in the same folder as the Python script.
+    Facebook assigns a unique identification number ("FBID") to every picture uploaded.
+    You first need to obtain a list of the FBIDs of the pictures you want to download.
 
-### Get your browser cookies
+    In case you want to download all the pictures you've been tagged in, you can follow [these](https://github.com/gnmerritt/gnmerritt.net/issues/1#issuecomment-407623247) steps.
 
-Facebook, naturally, only allows access to the pictures if you're logged in. Luckily, this can be emulated in `curl` by using a `cookies.txt` file. This file is supposed to contain all the cookies that your browser has saved. To obtain it, one can use a browser extension. I used [this one](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/) for Firefox.
+    Create a `fbids.txt` file with all the FBIDs, one per line.
 
-First, make sure you log into Facebook with the keep me logged in option checked. Then, export the file as `cookies.txt` and save it in the same folder as the Python script.
 
-### Execute the script
+2. 🍪 **Get your browser cookies**
 
-Run, using Python 2:
+    Facebook, naturally, only allows access to the pictures if you're logged in.
+    Luckily, this can be emulated by sending a `Cookie` header in the request, usually contained in a `cookies.txt` file.
+    This file is supposed to contain all the cookies from facebook.com that your browser has saved.
+    To obtain it, you can use a browser extension.
+    I used [this one](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/) for Firefox.
 
-    python download.py
+    First, make sure you log into Facebook with the keep me logged in option checked.
+    Then, export the cookies in a `cookies.txt` file.
 
-The script will create an `output` folder and save the pictures there, keeping their original modification timestamp (whenever they were uploaded to Facebook). The pictures will be named `YYYYMMDD.jpg` according to this date, with numbering (`YYYYMMDD 1.jpg`, etc.) in case there are two or more pictures with the same date.
+
+3. ⬇️ **Execute the script**
+
+    You need to install [Deno](https://deno.land/) in order to run the program.
+    There is no need to clone this repository, Deno can run scripts from arbitrary URLs.
+
+    In the folder where the `cookies.txt` and `fbids.txt` files are placed, run from a terminal:
+
+    ```sh
+    deno run --unstable --allow-net --allow-read --allow-write https://raw.githubusercontent.com/xaviripo/fmpd/master/mod.ts - < fbids.txt
+    ```
+
+    Each picture will be saved with its FBID followed by ".jpg" as its name in the folder.
+
+
+## ❔ Documentation
+
+Coming soon
