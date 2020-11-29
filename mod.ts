@@ -207,6 +207,11 @@ async function readCookies(filename: string): Promise<string> {
     }
     const pieces = line.split('\t');
 
+    // Don't send cookies from other domains
+    if (!pieces[0].endsWith('facebook.com')) {
+      continue;
+    }
+
     // Each cookie is a key=value pair made up of the last two fields
     // We don't use a dictionary as it's legal to send multiple cookies with the same key
     cookies.push(`${pieces[pieces.length - 2]}=${pieces[pieces.length - 1]}`);
