@@ -107,14 +107,14 @@ export default async function download(
   const formatter = parseFormatString(name);
 
   // Each line fed to the program through stdin is a FBID
-  for await (const fbid of fbids) {
+  for await (const rawFbid of fbids) {
 
-    const trim = fbid.trim();
+    const fbid = rawFbid.trim();
     // Ignore blank lines and comments
-    if (trim === '' || trim.startsWith('#')) {
+    if (fbid === '' || fbid.startsWith('#')) {
       continue;
     }
-    const url = await fetchRedirect(trim, headers);
+    const url = await fetchRedirect(fbid, headers);
     if (url === null) {
       continue;
     }
@@ -150,7 +150,7 @@ export default async function download(
     await Deno.writeFile(name, new Uint8Array(await response.arrayBuffer()));
 
     if (!quiet) {
-      console.log(`${name}`);
+      console.log(name);
     }
   }
 
