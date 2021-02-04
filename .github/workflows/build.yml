@@ -1,0 +1,27 @@
+name: Build executable
+on:
+  push:
+    branches:
+    - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ["x86_64-unknown-linux-gnu", "x86_64-pc-windows-msvc", "x86_64-apple-darwin", "aarch64-apple-darwin"]
+    steps:
+    - name: Check out
+      uses: actions/checkout@v2
+    - name: Install deno
+      uses: denolib/setup-deno@v2
+      with:
+        deno-version: v1.x
+    - name: Compile executable
+      run: |
+        deno --unstable compile --allow-net --allow-read --allow-write --lite --output fmpd-${{ matrix.target }} --target ${{ matrix.target }} mod.ts
+    - name: Upload executable
+      uses: actions/upload-artifact@v2
+      with:
+        name: fmpd-${{ matrix.target }}
+        path: fmpd-${{ matrix.target }}
+        if-no-files-found: error
