@@ -26,3 +26,16 @@ jobs:
           name: fmpd-${{ matrix.target }}
           path: fmpd-${{ matrix.target }}*
           if-no-files-found: error
+
+  release:
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: *
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
