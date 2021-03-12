@@ -25,5 +25,6 @@ jobs:
       - name: Upload executable
         uses: actions/upload-artifact@v2
         with:
+          name: fmpd-${{ matrix.target }}
           path: fmpd-${{ matrix.target }}*
           if-no-files-found: error
