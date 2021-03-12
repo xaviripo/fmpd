@@ -1,6 +1,7 @@
 name: Build executable
 on:
   push:
+    tags: v[1-9]+.[0-9]+.[0-9]+
     branches:
       - main
 jobs:
@@ -19,9 +20,6 @@ jobs:
       - name: Compile executable
         run: |
           deno --unstable compile --allow-net --allow-read --allow-write --lite --output fmpd-${{ matrix.target }} --target ${{ matrix.target }} mod.ts
-      - name: Debug
-        run: |
-          ls -al
       - name: Upload executable
         uses: actions/upload-artifact@v2
         with:
