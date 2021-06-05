@@ -1,3 +1,8 @@
+# VS Code configs
 .vscode
-cookies.txt
+
+# cookies.txt and FBID lists
+*.txt
+
+# Output pictures
 *.jpg
