@@ -30,7 +30,7 @@ async function main(): Promise<void> {
     Downloads any number of Facebook pictures given a list of their FBIDs.
 
   INSTALL:
-    deno install --unstable --allow-net --allow-read --allow-write -n fmpd https://raw.githubusercontent.com/xaviripo/fmpd/master/mod.ts
+    deno install --unstable --allow-net --allow-read --allow-write -n fmpd https://raw.githubusercontent.com/xaviripo/fmpd/main/mod.ts
 
   USAGE:
     fmpd [options] [fbid ...] [-]

@@ -44,7 +44,7 @@ Nevertheless, it works for any set of pictures uploaded to Facebook that you hav
     In the folder where the `cookies.txt` and `fbids.txt` files are placed, run from a terminal:
 
     ```sh
-    deno run --unstable --allow-net --allow-read --allow-write https://raw.githubusercontent.com/xaviripo/fmpd/master/mod.ts - < fbids.txt
+    deno run --unstable --allow-net --allow-read --allow-write https://raw.githubusercontent.com/xaviripo/fmpd/main/mod.ts - < fbids.txt
     ```
 
     Each picture will be saved with its FBID followed by ".jpg" as its name in the folder.
